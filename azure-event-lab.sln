@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceBusTopic", "ServiceBusTopic\ServiceBusTopic.csproj", "{E85BEC4E-08F8-4E7E-B623-2CB53BAC06EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventGridTest", "EventGridTest\EventGridTest.csproj", "{E5A5369A-22A2-424F-87CA-8F5892CAE198}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E85BEC4E-08F8-4E7E-B623-2CB53BAC06EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E85BEC4E-08F8-4E7E-B623-2CB53BAC06EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E85BEC4E-08F8-4E7E-B623-2CB53BAC06EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E85BEC4E-08F8-4E7E-B623-2CB53BAC06EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5A5369A-22A2-424F-87CA-8F5892CAE198}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5A5369A-22A2-424F-87CA-8F5892CAE198}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5A5369A-22A2-424F-87CA-8F5892CAE198}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5A5369A-22A2-424F-87CA-8F5892CAE198}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,199 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "namespaces": {
+      "defaultValue": "andreas-asdfgdfgfd",
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.ServiceBus/namespaces",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[parameters('namespaces')]",
+      "location": "North Europe",
+      "sku": {
+        "name": "Standard",
+        "tier": "Standard"
+      },
+      "properties": {
+        "zoneRedundant": false
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/AuthorizationRules",
+      "apiVersion": "2017-04-01",
+      "name": "[concat(parameters('namespaces'), '/RootManageSharedAccessKey')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces'))]"
+      ],
+      "properties": {
+        "rights": [
+          "Listen",
+          "Manage",
+          "Send"
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/networkRuleSets",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[concat(parameters('namespaces'), '/default')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces'))]"
+      ],
+      "properties": {
+        "defaultAction": "Deny",
+        "virtualNetworkRules": [],
+        "ipRules": []
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[concat(parameters('namespaces'), '/updates')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces'))]"
+      ],
+      "properties": {
+        "defaultMessageTimeToLive": "PT1H",
+        "maxSizeInMegabytes": 1024,
+        "requiresDuplicateDetection": false,
+        "duplicateDetectionHistoryTimeWindow": "PT10M",
+        "enableBatchedOperations": true,
+        "status": "Active",
+        "supportOrdering": true,
+        "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+        "enablePartitioning": false,
+        "enableExpress": false
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[concat(parameters('namespaces'), '/updates/all')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces'), 'updates')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces'))]"
+      ],
+      "properties": {
+        "lockDuration": "PT30S",
+        "requiresSession": false,
+        "defaultMessageTimeToLive": "PT5M",
+        "deadLetteringOnMessageExpiration": false,
+        "deadLetteringOnFilterEvaluationExceptions": false,
+        "maxDeliveryCount": 5,
+        "status": "Active",
+        "enableBatchedOperations": true,
+        "autoDeleteOnIdle": "P10675198DT2H48M5.477S"
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[concat(parameters('namespaces'), '/updates/cats')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces'), 'updates')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces'))]"
+      ],
+      "properties": {
+        "lockDuration": "PT30S",
+        "requiresSession": false,
+        "defaultMessageTimeToLive": "PT5M",
+        "deadLetteringOnMessageExpiration": false,
+        "deadLetteringOnFilterEvaluationExceptions": false,
+        "maxDeliveryCount": 5,
+        "status": "Active",
+        "enableBatchedOperations": true,
+        "autoDeleteOnIdle": "P10675198DT2H48M5.477S"
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[concat(parameters('namespaces'), '/updates/dogs')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces'), 'updates')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces'))]"
+      ],
+      "properties": {
+        "lockDuration": "PT30S",
+        "requiresSession": false,
+        "defaultMessageTimeToLive": "PT5M",
+        "deadLetteringOnMessageExpiration": false,
+        "deadLetteringOnFilterEvaluationExceptions": false,
+        "maxDeliveryCount": 5,
+        "status": "Active",
+        "enableBatchedOperations": true,
+        "autoDeleteOnIdle": "P10675198DT2H48M5.477S"
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[concat(parameters('namespaces'), '/updates/all/$Default')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces'), 'updates', 'all')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces'), 'updates')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces'))]"
+      ],
+      "properties": {
+        "action": {},
+        "filterType": "SqlFilter",
+        "sqlFilter": {
+          "sqlExpression": "1=1",
+          "compatibilityLevel": 20
+        }
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[concat(parameters('namespaces'), '/updates/dogs/isDog')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces'), 'updates', 'dogs')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces'), 'updates')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces'))]"
+      ],
+      "properties": {
+        "action": {},
+        "filterType": "CorrelationFilter",
+        "correlationFilter": {
+          "properties": {
+            "type": "dog"
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.ServiceBus/namespaces/topics/subscriptions/rules",
+      "apiVersion": "2018-01-01-preview",
+      "name": "[concat(parameters('namespaces'), '/updates/cats/isCat')]",
+      "location": "North Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics/subscriptions', parameters('namespaces'), 'updates', 'cats')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces/topics', parameters('namespaces'), 'updates')]",
+        "[resourceId('Microsoft.ServiceBus/namespaces', parameters('namespaces'))]"
+      ],
+      "properties": {
+        "action": {},
+        "filterType": "CorrelationFilter",
+        "correlationFilter": {
+          "properties": {
+            "type": "cat"
+          }
+        }
+      }
+    }
+  ]
+}
